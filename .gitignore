@@ -1,0 +1,20 @@
+# Data files (too large for GitHub)
+collection/
+data/
+models/
+*.csv
+*.parquet
+*.jsonl
+*.jsonl.gz
+*.duckdb
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+venv/
+.env
+
+# OS
+.DS_Store
+Thumbs.db

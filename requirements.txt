@@ -1,0 +1,9 @@
+﻿duckdb
+pandas
+plotly
+scikit-learn
+xgboost
+vaderSentiment
+streamlit
+jupyter
+nbformat
