@@ -67,18 +67,38 @@ No-discount products earn the most per listing ($7,903), but **Light discounts (
 
 ---
 
+### 🏷️ Brand & Listing Quality — Branding Is a Niche Weapon
+
+Unbranded products dominate total revenue ($3.6B vs $1B), but branded earns slightly more per product ($3,634 vs $3,171). The brand multiplier ranges from **206× (Sony PSP)** to near-zero — it's entirely category-dependent.
+
+![Branded vs Unbranded](notebooks/charts/05_brand_listing_quality/01_branded_vs_unbranded_overall.png)
+
+![Brand Multiplier by Category](notebooks/charts/05_brand_listing_quality/02_brand_multiplier.png)
+
+![Brand Penetration](notebooks/charts/05_brand_listing_quality/03_brand_presence.png)
+
+Listing completeness (features, descriptions, brand, store info) has a **median multiplier below 1.0×** — meaning it doesn't help in the typical category. But in specific categories, complete listings earn up to **27× more**. The Best Seller badge is rare (median 0.3% of products) but can mean **997× revenue** in niche categories like Wii Games.
+
+![Listing Element Impact](notebooks/charts/05_brand_listing_quality/04_listing_element_multipliers.png)
+
+![Best Seller Multiplier](notebooks/charts/05_brand_listing_quality/08_bestseller_multiplier.png)
+
+![Success Signal Correlation Matrix](notebooks/charts/05_brand_listing_quality/10_success_correlation_matrix.png)
+
+---
+
 ## Validated Insights (So Far)
 
 - **"Cheap wins" is false** — Luxury earns 19× more per product than Budget; Budget wins only 6 of 248 subcategories
 - **Light discounts beat deep discounts** — Light (1–19%) dominates 144 categories; Deep (50%+) wins only 4
 - **No-discount products earn the most per listing** — $7,903 vs $3,600 for Light discounts
-- **Brand advantage is category-dependent** — ranges from 207× (Sony PSP) to near-zero
+- **Brand advantage is category-dependent** — ranges from 206× (Sony PSP) to near-zero
+- **Unbranded dominates total revenue** — $3.6B vs $1B, but branded earns 14% more per product
+- **Listing completeness matters in specific categories, not universally** — median multiplier <1×, but max 27×
+- **Best Seller badge is rare and category-dependent** — median 0.3%, multiplier from 997× (Wii Games) to negligible
 - **Specialization beats diversification** — specialists earn 44% more revenue per product
-- **Best Seller badge impact ranges from 132× to negligible** depending on category
-- **Listing completeness multiplies revenue up to 27×**
 - **Ratings are declining industry-wide** (4.28 → 4.02, 2019–2022)
 - **Unverified reviews are less positive than verified** — the opposite of what you'd expect
-- **29% of products have review matches** — clothing categories worst at ~1%
 
 ---
 
@@ -122,6 +142,7 @@ amazon-market-intelligence/
 │   ├── 02_eda_mcauley_metadata.ipynb
 │   ├── 03_category_landscape.ipynb
 │   ├── 04_pricing_discounts.ipynb
+│   ├── 05_brand_listing_quality.ipynb
 │   └── charts/           # Generated visualizations
 ├── models/               # Trained ML models
 ├── app/                  # Streamlit application
@@ -132,7 +153,7 @@ amazon-market-intelligence/
 
 - [x] Category Landscape Analysis
 - [x] Pricing & Discount Analysis
-- [ ] Brand & Listing Quality Analysis
+- [x] Brand & Listing Quality Analysis
 - [ ] Store & Seller Patterns
 - [ ] Review & Sentiment Analysis (VADER NLP)
 - [ ] ML: Competitive Clustering (K-Means)
