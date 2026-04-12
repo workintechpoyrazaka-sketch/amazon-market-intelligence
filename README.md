@@ -87,6 +87,24 @@ Listing completeness (features, descriptions, brand, store info) has a **median 
 
 ---
 
+### 🏪 Store & Seller Patterns — Focus Beats Breadth
+
+54% of Amazon stores sell exactly one product. The seller economy is a long tail — **top 1.2% of stores hold 50% of all revenue**. Store type matters: Specialists ($4,172/product) and Focused sellers ($4,066) outperform Generalists ($2,903) by 44%. But Generalists dominate total revenue ($878M) through sheer volume.
+
+![Store Size Distribution](notebooks/charts/06_store_seller_patterns/01_store_size_distribution.png)
+
+![Size Tier — Stores vs Revenue](notebooks/charts/06_store_seller_patterns/02_size_tier_split.png)
+
+![Specialist vs Generalist](notebooks/charts/06_store_seller_patterns/03_specialist_vs_generalist.png)
+
+Adding categories doesn't help — per-product revenue declines as stores diversify. And store ratings have near-zero correlation with revenue (0.036).
+
+![Category Count vs Revenue](notebooks/charts/06_store_seller_patterns/04_category_count_vs_revenue.png)
+
+![Revenue Concentration Curve](notebooks/charts/06_store_seller_patterns/06_revenue_concentration.png)
+
+---
+
 ## Validated Insights (So Far)
 
 - **"Cheap wins" is false** — Luxury earns 19× more per product than Budget; Budget wins only 6 of 248 subcategories
@@ -96,7 +114,9 @@ Listing completeness (features, descriptions, brand, store info) has a **median 
 - **Unbranded dominates total revenue** — $3.6B vs $1B, but branded earns 14% more per product
 - **Listing completeness matters in specific categories, not universally** — median multiplier <1×, but max 27×
 - **Best Seller badge is rare and category-dependent** — median 0.3%, multiplier from 997× (Wii Games) to negligible
-- **Specialization beats diversification** — specialists earn 44% more revenue per product
+- **Specialization beats diversification** — Specialists earn 44% more per product than Generalists
+- **Store economy is winner-take-most** — top 1.2% of stores hold 50% of revenue
+- **Store ratings don't predict revenue** — correlation 0.036
 - **Ratings are declining industry-wide** (4.28 → 4.02, 2019–2022)
 - **Unverified reviews are less positive than verified** — the opposite of what you'd expect
 
@@ -143,6 +163,7 @@ amazon-market-intelligence/
 │   ├── 03_category_landscape.ipynb
 │   ├── 04_pricing_discounts.ipynb
 │   ├── 05_brand_listing_quality.ipynb
+│   ├── 06_store_seller_patterns.ipynb
 │   └── charts/           # Generated visualizations
 ├── models/               # Trained ML models
 ├── app/                  # Streamlit application
@@ -154,7 +175,7 @@ amazon-market-intelligence/
 - [x] Category Landscape Analysis
 - [x] Pricing & Discount Analysis
 - [x] Brand & Listing Quality Analysis
-- [ ] Store & Seller Patterns
+- [x] Store & Seller Patterns
 - [ ] Review & Sentiment Analysis (VADER NLP)
 - [ ] ML: Competitive Clustering (K-Means)
 - [ ] ML: Success Factor Discovery (XGBoost + SHAP)
