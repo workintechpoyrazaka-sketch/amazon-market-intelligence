@@ -25,97 +25,57 @@ Amazon sellers make pricing, positioning, and category decisions blindly. "Cheap
 
 ## Key Findings
 
-### Where the Money Is
+### 📍 Category Landscape — Where the Money Is
 
-Not all categories are created equal. Kitchen & Dining alone generates **$267M** in estimated revenue — more than the bottom 100 subcategories combined.
+Not all categories are created equal. Kitchen & Dining alone generates **$267M** — more than the bottom 100 combined. But raw revenue is misleading; **revenue per product** reveals where demand actually concentrates.
 
 ![Top 20 Subcategories by Revenue](notebooks/charts/03_category_landscape/01_top20_revenue.png)
 
-### But Raw Revenue Is Misleading
-
-Revenue *per product* tells the real story. Some small categories concentrate more demand per listing than massive ones.
-
 ![Revenue per Product — Demand Density](notebooks/charts/03_category_landscape/02_revenue_per_product.png)
 
-### The Opportunity Quadrant
-
-Every subcategory plotted by demand density vs. activity rate. Bubble size = competition level. **Top-right, small bubble = the sweet spot.**
+The **Opportunity Quadrant** plots every subcategory by demand density vs. activity rate. Bubble size = competition. Top-right, small bubble = the sweet spot.
 
 ![Opportunity Quadrant](notebooks/charts/03_category_landscape/03_opportunity_quadrant.png)
 
-### Most of Amazon Is Dead
-
-The majority of subcategories have surprisingly low activity rates — most listed products never sell.
-
-![Activity Rate Distribution](notebooks/charts/03_category_landscape/04_activity_distribution.png)
-
-### The Ghost Categories
-
-These subcategories have the lowest activity — massive catalogs where almost nothing moves.
-
-![Ghost Categories](notebooks/charts/03_category_landscape/05_ghost_categories.png)
-
-### Full Ecosystem: 35M Products Across 50 Categories
-
-Zooming out to the complete Amazon catalog from McAuley metadata — not just products with sales data.
-
-![Main Category Ecosystem](notebooks/charts/03_category_landscape/06_main_category_size.png)
-
-### Ratings Are Declining Industry-Wide
-
-Average ratings dropped from 4.28 to 4.02 between 2019–2022. Customers are getting pickier — or quality is declining.
-
-![Rating Decline](notebooks/charts/03_category_landscape/08_rating_decline.png)
-
-### Who's Growing, Who's Dying
-
-Compound annual growth rate of review volume by category. Green = growing markets. Red = shrinking ones.
-
-![Growers vs Decliners](notebooks/charts/03_category_landscape/10_growers_vs_decliners.png)
-
-### Category Growth Heatmap
-
-Year-over-year review volume change across all categories.
-
-![Growth Heatmap](notebooks/charts/03_category_landscape/09_growth_heatmap.png)
-
-### The Most Oversaturated Markets
-
-High product count ÷ low activity = brutal competition with little payoff.
-
-![Competition Intensity](notebooks/charts/03_category_landscape/11_competition_intensity.png)
-
-### Hidden Gems
-
-High revenue per product, low competition. These are the categories worth entering.
-
-![Hidden Gems](notebooks/charts/03_category_landscape/12_hidden_gems.png)
-
-### Category Typology
-
-Every subcategory classified into one of four strategic types:
-
-| Type | Revenue/Product | Activity | What It Means |
-|------|----------------|----------|---------------|
-| 🌟 Star | High | High | Money is here, things sell |
-| 💎 Niche Premium | High | Low | Few sell but those that do earn big |
-| 🏭 Volume Play | Low | High | Things sell but margins are thin |
-| 💀 Graveyard | Low | Low | Dead listings, nobody buys |
+Every subcategory classified into four strategic types — Stars, Niche Premium, Volume Plays, and Graveyards:
 
 ![Category Typology](notebooks/charts/03_category_landscape/13_category_typology.png)
 
-![Revenue by Type](notebooks/charts/03_category_landscape/14_revenue_by_type.png)
+Ratings are declining industry-wide (4.28 → 4.02, 2019–2022), and growth varies wildly by category:
+
+![Growers vs Decliners](notebooks/charts/03_category_landscape/10_growers_vs_decliners.png)
+
+![Growth Heatmap](notebooks/charts/03_category_landscape/09_growth_heatmap.png)
+
+---
+
+### 💰 Pricing & Discounts — "Cheap Wins" Is Dead
+
+Budget wins only **6 of 248** subcategories. Low-price products capture the most total revenue, but Luxury earns **$6,624 per product** — 19× more than Budget. The winning price tier is entirely category-dependent.
+
+![Revenue by Price Tier](notebooks/charts/04_pricing_discounts/01_revenue_by_tier.png)
+
+![Luxury vs Budget](notebooks/charts/04_pricing_discounts/04_luxury_vs_budget.png)
+
+![Revenue Share by Tier — Top 15 Categories](notebooks/charts/04_pricing_discounts/03_revenue_share_by_tier.png)
+
+No-discount products earn the most per listing ($7,903), but **Light discounts (1–19%)** dominate 144 categories. Deep discounts (50%+) win only 4. The discount sweet spot is lighter than most sellers think.
+
+![Revenue by Discount Band](notebooks/charts/04_pricing_discounts/06_revenue_by_discount.png)
+
+![Discount Curve](notebooks/charts/04_pricing_discounts/07_discount_curve.png)
 
 ---
 
 ## Validated Insights (So Far)
 
-- **"Cheap wins" is false** — in Kitchen & Dining, luxury products earn 18× more per product than budget
+- **"Cheap wins" is false** — Luxury earns 19× more per product than Budget; Budget wins only 6 of 248 subcategories
+- **Light discounts beat deep discounts** — Light (1–19%) dominates 144 categories; Deep (50%+) wins only 4
+- **No-discount products earn the most per listing** — $7,903 vs $3,600 for Light discounts
 - **Brand advantage is category-dependent** — ranges from 207× (Sony PSP) to near-zero
 - **Specialization beats diversification** — specialists earn 44% more revenue per product
 - **Best Seller badge impact ranges from 132× to negligible** depending on category
 - **Listing completeness multiplies revenue up to 27×**
-- **Medium discounts (20–49%) outperform deep discounts**
 - **Ratings are declining industry-wide** (4.28 → 4.02, 2019–2022)
 - **Unverified reviews are less positive than verified** — the opposite of what you'd expect
 - **29% of products have review matches** — clothing categories worst at ~1%
@@ -161,6 +121,7 @@ amazon-market-intelligence/
 │   ├── 01_eda_kaggle.ipynb
 │   ├── 02_eda_mcauley_metadata.ipynb
 │   ├── 03_category_landscape.ipynb
+│   ├── 04_pricing_discounts.ipynb
 │   └── charts/           # Generated visualizations
 ├── models/               # Trained ML models
 ├── app/                  # Streamlit application
@@ -169,7 +130,8 @@ amazon-market-intelligence/
 
 ## What's Next
 
-- [ ] Pricing & Discount Analysis
+- [x] Category Landscape Analysis
+- [x] Pricing & Discount Analysis
 - [ ] Brand & Listing Quality Analysis
 - [ ] Store & Seller Patterns
 - [ ] Review & Sentiment Analysis (VADER NLP)
