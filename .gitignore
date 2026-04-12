@@ -19,4 +19,4 @@ venv/
 .DS_Store
 Thumbs.db
 
-charts/**/*.html
+notebooks/charts/**/*.html
