@@ -105,6 +105,30 @@ Adding categories doesn't help — per-product revenue declines as stores divers
 
 ---
 
+### 💬 Reviews & Sentiment — What 526M Reviews Actually Say
+
+Subscription Boxes (25.1% negative) and All Beauty (20.7%) are the most complained-about categories. Digital content (Kindle, CDs, Digital Music) has the happiest customers at 6–7% negative. Across all categories, unhappy customers write **1.33× longer** reviews — with Gift Cards hitting 2.98×.
+
+![Negative Rate by Category](notebooks/charts/07_reviews_sentiment/01_negative_rate_by_category.png)
+
+![Verbosity Ratio](notebooks/charts/07_reviews_sentiment/03_verbosity_ratio.png)
+
+Generic word frequency is misleading. Using **complaint-distinctive ratios** (negative ÷ positive usage), the real complaint signals emerge: "inedible" (699×), "rancid" (396×), "unsafe" (226×). Praise signals are dominated by book reviews — "captivating" (3,851×), "gripping" (2,999×) — and food: "yum" (3,555×).
+
+![Complaint-Distinctive Keywords](notebooks/charts/07_reviews_sentiment/04_distinctive_negative_keywords.png)
+
+![Praise-Distinctive Keywords](notebooks/charts/07_reviews_sentiment/06_distinctive_positive_keywords.png)
+
+![Category Complaint Signatures](notebooks/charts/07_reviews_sentiment/05_complaint_keywords_by_category.png)
+
+89.2% of reviews are verified purchases. The "fake review" narrative doesn't hold: unverified reviewers give **fewer** 5-star ratings than verified ones (−8.6 percentage points on average). The gap is negative across every single category.
+
+![Verified Purchase Rate](notebooks/charts/07_reviews_sentiment/06_verified_rate_by_category.png)
+
+![Unverified vs Verified Gap](notebooks/charts/07_reviews_sentiment/08_verified_unverified_gap.png)
+
+---
+
 ## Validated Insights (So Far)
 
 - **"Cheap wins" is false** — Luxury earns 19× more per product than Budget; Budget wins only 6 of 248 subcategories
@@ -118,7 +142,10 @@ Adding categories doesn't help — per-product revenue declines as stores divers
 - **Store economy is winner-take-most** — top 1.2% of stores hold 50% of revenue
 - **Store ratings don't predict revenue** — correlation 0.036
 - **Ratings are declining industry-wide** (4.28 → 4.02, 2019–2022)
-- **Unverified reviews are less positive than verified** — the opposite of what you'd expect
+- **Unverified reviews are LESS positive than verified** — −8.6pp gap kills the fake review inflation narrative
+- **Complaint keywords are category-specific** — "inedible" and "rancid" (food), "unsafe" (electronics), "shoddy" (goods)
+- **Negative reviews are 1.33× longer than positive** — unhappy customers write more, providing richer signal
+- **89.2% of reviews are verified purchases** — Amazon's review base is overwhelmingly authentic
 
 ---
 
@@ -164,6 +191,7 @@ amazon-market-intelligence/
 │   ├── 04_pricing_discounts.ipynb
 │   ├── 05_brand_listing_quality.ipynb
 │   ├── 06_store_seller_patterns.ipynb
+│   ├── 07_reviews_sentiment.ipynb
 │   └── charts/           # Generated visualizations
 ├── models/               # Trained ML models
 ├── app/                  # Streamlit application
@@ -176,7 +204,7 @@ amazon-market-intelligence/
 - [x] Pricing & Discount Analysis
 - [x] Brand & Listing Quality Analysis
 - [x] Store & Seller Patterns
-- [ ] Review & Sentiment Analysis (VADER NLP)
+- [x] Review & Sentiment Analysis
 - [ ] ML: Competitive Clustering (K-Means)
 - [ ] ML: Success Factor Discovery (XGBoost + SHAP)
 - [ ] ML: Review Anomaly Detection
