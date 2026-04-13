@@ -31,6 +31,14 @@ Budget wins only **6 of 248** subcategories. Luxury earns **$6,624 per product**
 
 ![Revenue by Price Tier](notebooks/charts/04_pricing_discounts/01_revenue_by_tier.png)
 
+Not all categories are created equal. The **Opportunity Quadrant** maps every subcategory by demand density vs. activity rate — top-right with a small bubble is the sweet spot.
+
+![Opportunity Quadrant](notebooks/charts/03_category_landscape/03_opportunity_quadrant.png)
+
+Light discounts (1-19%) dominate **144 categories**. Deep discounts (50%+) win only 4. No-discount products earn the most per listing ($7,903). The discount sweet spot is much lighter than most sellers think.
+
+![Discount Curve](notebooks/charts/04_pricing_discounts/07_discount_curve.png)
+
 ### Price positioning is the #1 success predictor.
 
 XGBoost + SHAP on 497K products: `price_rank` within subcategory has 3× the predictive power of any other feature. Bottom quintile = 10% success rate. Top quintile = 52%. SHAP waterfall plots show exactly why each product succeeds or struggles.
@@ -39,17 +47,29 @@ XGBoost + SHAP on 497K products: `price_rank` within subcategory has 3× the pre
 
 ![Waterfall — Why This Product Struggles](notebooks/charts/09_success_factors/09b_waterfall_struggle.png)
 
+The model achieves **AUC 0.78** — listing attributes predict most of success, but ~22% is marketplace randomness that no listing optimization can control.
+
+![ROC Curve](notebooks/charts/09_success_factors/03_roc_curve.png)
+
 ### The "fake review" narrative doesn't hold — except when it does.
 
 89.2% of reviews are verified purchases. Market-wide, unverified reviewers give **fewer** 5-star ratings than verified ones (−8.6pp gap). But on the 5% of products flagged by Isolation Forest, the pattern **reverses** — unverified reviews inflate ratings. Manipulation exists, but it's targeted, not systemic.
 
 ![Unverified vs Verified Gap](notebooks/charts/07_reviews_sentiment/08_verified_unverified_gap.png)
 
+![Suspicious Product Deviations](notebooks/charts/10_review_anomaly/08_suspicious_deviations.png)
+
 ### Five competitive archetypes define the marketplace.
 
 K-Means clustering on category-relative features reveals five product types. **Best Seller Elite (1.4%)** earns $63,457 per product — 18× more than Quiet Quality. **Silent Volume Movers (29%)** sell 774 units/month with near-zero reviews. Keyword-stuffed titles (Struggling Listers) correlate with the worst ratings.
 
 ![Cluster Radar](notebooks/charts/08_competitive_clustering/06_cluster_radar.png)
+
+![Cluster Sizes](notebooks/charts/08_competitive_clustering/05_cluster_sizes.png)
+
+PCA reveals two axes: **PC1 = success** (sales + badge + reviews), **PC2 = effort vs quality** (title length vs rating). Best Seller Elite separates cleanly; Struggling Listers cluster high on the effort axis.
+
+![PCA Projection](notebooks/charts/08_competitive_clustering/08_pca_projection.png)
 
 ### Specialization beats diversification. Always.
 
