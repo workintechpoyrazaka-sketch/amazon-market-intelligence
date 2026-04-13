@@ -183,6 +183,24 @@ Price_rank success rate climbs from 10% (bottom quintile) to 52% (top quintile) 
 
 ---
 
+### 🛡️ Review Anomaly Detection — Can You Trust These Reviews?
+
+Isolation Forest (unsupervised) on 292K products with 5+ reviews, flagging the 5% with most unusual review patterns. No labeled "fake" data exists, so anomaly detection finds statistical outliers — products whose review patterns deviate from the population.
+
+**14,620 products flagged as suspicious (5%).** The typical product scores 87.3 trust (median), confirming Amazon's review ecosystem is overwhelmingly authentic — but the 5% tail reveals real manipulation patterns.
+
+What makes a product suspicious: **54.5% verified rate** (vs 93.5% normal), **6.7× higher review velocity**, and critically — a **positive unverified 5-star gap** (+2.8 vs −8.6 normal). Market-wide, unverified reviews are *less* generous. On suspicious products, the pattern reverses. That's what targeted manipulation looks like.
+
+![Trust Score Distribution](notebooks/charts/10_review_anomaly/02_trust_score_distribution.png)
+
+![Anomaly vs Normal](notebooks/charts/10_review_anomaly/03_anomaly_vs_normal.png)
+
+![Anomaly Rate by Category](notebooks/charts/10_review_anomaly/05_anomaly_rate_by_category.png)
+
+![Suspicious Deviations](notebooks/charts/10_review_anomaly/08_suspicious_deviations.png)
+
+---
+
 ## Validated Insights (So Far)
 
 - **"Cheap wins" is false** — Luxury earns 19× more per product than Budget; Budget wins only 6 of 248 subcategories
@@ -212,6 +230,11 @@ Price_rank success rate climbs from 10% (bottom quintile) to 52% (top quintile) 
 - **Rating cliff at 4.0** — getting above 4.0 matters; incremental gains from 4.0→5.0 don't predict success
 - **Any discount helps, size doesn't matter** — binary SHAP jump at non-zero discount, flat after that
 - **has_description slightly hurts success prediction** — counterintuitive; may reflect data coverage patterns
+- **5% of products have suspicious review patterns** — 14,620 of 292K flagged by Isolation Forest
+- **Verified rate is the #1 anomaly signal** — suspicious products average 54.5% verified vs 93.5% normal
+- **Unverified 5-star gap reverses on suspicious products** — +2.8 vs −8.6 normal; targeted manipulation flips the market-wide pattern
+- **Suspicious reviews are LONGER, not shorter** — 413 chars vs 172; organized campaigns write full-length text
+- **Review velocity 6.7× higher on suspicious products** — burst patterns are the second strongest signal
 
 ---
 
@@ -223,7 +246,7 @@ Bronze → Silver → Gold → Notebooks → ML → Streamlit App
 
 - **Bronze (4 tables):** Raw ingestion — 1.4M products, 35M metadata, 248 categories, 526M reviews
 - **Silver (5 tables/views):** Cleaned, typed, enriched — quality flags, joins, deduplication
-- **Gold (17 tables):** Pre-aggregated analytics — one table per analytical question, plus ML cluster assignments
+- **Gold (18 tables):** Pre-aggregated analytics — one table per analytical question, plus ML outputs
 - **Engine:** DuckDB (local, no cloud dependency, handles 200+ GB)
 - **Stack:** Python · DuckDB · Pandas · Plotly · scikit-learn · XGBoost · VADER · Streamlit
 
@@ -260,6 +283,7 @@ amazon-market-intelligence/
 │   ├── 07_reviews_sentiment.ipynb
 │   ├── 08_competitive_clustering.py
 │   ├── 09_success_factors.py
+│   ├── 10_review_anomaly.py
 │   └── charts/           # Generated visualizations
 ├── models/               # Trained ML models
 ├── app/                  # Streamlit application
@@ -275,7 +299,7 @@ amazon-market-intelligence/
 - [x] Review & Sentiment Analysis
 - [x] ML: Competitive Clustering (K-Means — 5 archetypes, 10 charts)
 - [x] ML: Success Factor Discovery (XGBoost + SHAP — AUC 0.78, 11 charts)
-- [ ] ML: Review Anomaly Detection
+- [x] ML: Review Anomaly Detection (Isolation Forest — 5% flagged, 10 charts)
 - [ ] Streamlit interactive tool
 - [ ] Presentation deck
 
