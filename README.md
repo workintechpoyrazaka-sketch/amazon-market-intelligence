@@ -157,6 +157,32 @@ Review-Rich Veterans concentrate in specific categories — Makeup (56%), Home D
 
 ---
 
+### 🔬 Success Factor Discovery — What Actually Predicts Success?
+
+XGBoost + SHAP on 497K active products, predicting top-25% revenue within subcategory. 14 listing-visible features, zero data leakage (sales/revenue excluded from features). Model achieves **AUC 0.78** — listing attributes predict most of success, but ~22% is marketplace randomness.
+
+**The headline: price positioning is the #1 predictor.** SHAP ranks `price_rank` at 0.62 mean |SHAP value| — 3× higher than any other feature. Where you price within your category matters more than badge, reviews, brand, or listing completeness.
+
+![SHAP Summary](notebooks/charts/09_success_factors/05_shap_summary.png)
+
+![SHAP Feature Importance](notebooks/charts/09_success_factors/06_shap_bar.png)
+
+**XGBoost vs SHAP tell different stories.** XGBoost Gain ranks `is_best_seller` #1 (0.36), but SHAP drops it to #11. The badge fires massively (+2.09 SHAP) for the 1.4% who have it, but contributes zero for 98.6% of products. Price_rank affects *every* product.
+
+![Feature Direction](notebooks/charts/09_success_factors/08_feature_direction.png)
+
+**Individual product diagnosis — the tool's power.** SHAP waterfall plots show exactly *why* a product succeeds or struggles. A $1.50 product at the bottom of its category (price_rank = 0) gets −1.19 and −0.88 SHAP from price alone. A 4.6 rating (+0.14) can't save it.
+
+![Waterfall — Success](notebooks/charts/09_success_factors/09a_waterfall_success.png)
+
+![Waterfall — Struggle](notebooks/charts/09_success_factors/09b_waterfall_struggle.png)
+
+Price_rank success rate climbs from 10% (bottom quintile) to 52% (top quintile) — a 5× improvement. Rating shows a cliff below 4.0 but is flat above it. Any discount helps; the size barely matters.
+
+![Success Rate by Feature](notebooks/charts/09_success_factors/10_success_rate_by_feature.png)
+
+---
+
 ## Validated Insights (So Far)
 
 - **"Cheap wins" is false** — Luxury earns 19× more per product than Budget; Budget wins only 6 of 248 subcategories
@@ -179,6 +205,13 @@ Review-Rich Veterans concentrate in specific categories — Makeup (56%), Home D
 - **Keyword-stuffed titles correlate with worst ratings** — Struggling Listers have longest titles but lowest ratings (4.28)
 - **You don't need reviews to sell** — Silent Volume Movers average 774 monthly sales with near-zero reviews
 - **Review accumulation is category-dependent** — Veterans concentrate in Makeup (56%), Home Décor (55%), absent from Bath/Bedding
+- **Price positioning is the #1 success predictor** — SHAP value 0.62, 3× higher than any other feature
+- **Listing features predict 78% of success variance (AUC 0.78)** — meaningful but ~22% is marketplace randomness
+- **Best Seller badge: decisive for 1.4%, irrelevant for 98.6%** — XGBoost Gain #1 but SHAP #11
+- **Premium pricing within category = 5× higher success rate** — bottom quintile 10%, top quintile 52%
+- **Rating cliff at 4.0** — getting above 4.0 matters; incremental gains from 4.0→5.0 don't predict success
+- **Any discount helps, size doesn't matter** — binary SHAP jump at non-zero discount, flat after that
+- **has_description slightly hurts success prediction** — counterintuitive; may reflect data coverage patterns
 
 ---
 
@@ -226,6 +259,7 @@ amazon-market-intelligence/
 │   ├── 06_store_seller_patterns.ipynb
 │   ├── 07_reviews_sentiment.ipynb
 │   ├── 08_competitive_clustering.py
+│   ├── 09_success_factors.py
 │   └── charts/           # Generated visualizations
 ├── models/               # Trained ML models
 ├── app/                  # Streamlit application
@@ -240,7 +274,7 @@ amazon-market-intelligence/
 - [x] Store & Seller Patterns
 - [x] Review & Sentiment Analysis
 - [x] ML: Competitive Clustering (K-Means — 5 archetypes, 10 charts)
-- [ ] ML: Success Factor Discovery (XGBoost + SHAP)
+- [x] ML: Success Factor Discovery (XGBoost + SHAP — AUC 0.78, 11 charts)
 - [ ] ML: Review Anomaly Detection
 - [ ] Streamlit interactive tool
 - [ ] Presentation deck
