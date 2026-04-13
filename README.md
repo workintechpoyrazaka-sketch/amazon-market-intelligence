@@ -129,6 +129,34 @@ Generic word frequency is misleading. Using **complaint-distinctive ratios** (ne
 
 ---
 
+### 🎯 Competitive Clustering — Five Archetypes on Amazon
+
+K-Means clustering on category-relative features (percentile ranks within subcategory) reveals five product archetypes. Features are nearly uncorrelated (max 0.13), meaning each captures independent signal.
+
+![Cluster Sizes](notebooks/charts/08_competitive_clustering/05_cluster_sizes.png)
+
+| Cluster | Products | Avg Revenue/Product | Key Trait |
+|---------|----------|-------------------|-----------|
+| Silent Volume Movers | 143K (28.9%) | $16,554 | High sales, near-zero reviews — selling on demand alone |
+| Struggling Listers | 138K (27.7%) | $3,968 | Longest titles, highest prices, worst ratings — effort ≠ quality |
+| Review-Rich Veterans | 68K (13.6%) | $11,415 | 2,213 avg reviews but only moderate sales — social proof ≠ dominance |
+| Quiet Quality | 141K (28.4%) | $3,535 | Best ratings, shortest titles, low visibility |
+| Best Seller Elite | 6.7K (1.4%) | $63,457 | 100% badge holders, 18× more revenue per product than Quiet Quality |
+
+![Cluster Radar Profiles](notebooks/charts/08_competitive_clustering/06_cluster_radar.png)
+
+![Revenue by Cluster](notebooks/charts/08_competitive_clustering/07_revenue_by_cluster.png)
+
+PCA reveals two dimensions explaining the marketplace: **PC1 = success** (sales + badge + reviews), **PC2 = effort vs quality** (title length vs rating). Best Seller Elite separates cleanly on PC1; Struggling Listers spread high on PC2.
+
+![PCA Projection](notebooks/charts/08_competitive_clustering/08_pca_projection.png)
+
+Review-Rich Veterans concentrate in specific categories — Makeup (56%), Home Décor (55%), Automotive Tools (53%) — but are absent from Bath, Bedding, and Hair Care. Review accumulation is category-dependent.
+
+![Cluster × Category Heatmap](notebooks/charts/08_competitive_clustering/09_cluster_subcategory_heatmap.png)
+
+---
+
 ## Validated Insights (So Far)
 
 - **"Cheap wins" is false** — Luxury earns 19× more per product than Budget; Budget wins only 6 of 248 subcategories
@@ -146,6 +174,11 @@ Generic word frequency is misleading. Using **complaint-distinctive ratios** (ne
 - **Complaint keywords are category-specific** — "inedible" and "rancid" (food), "unsafe" (electronics), "shoddy" (goods)
 - **Negative reviews are 1.33× longer than positive** — unhappy customers write more, providing richer signal
 - **89.2% of reviews are verified purchases** — Amazon's review base is overwhelmingly authentic
+- **Five competitive archetypes exist across all categories** — Silent Volume Movers, Struggling Listers, Review-Rich Veterans, Quiet Quality, Best Seller Elite
+- **Best Seller Elite (1.4% of products) earns 18× more per product** — $63.5K vs $3.5K for Quiet Quality
+- **Keyword-stuffed titles correlate with worst ratings** — Struggling Listers have longest titles but lowest ratings (4.28)
+- **You don't need reviews to sell** — Silent Volume Movers average 774 monthly sales with near-zero reviews
+- **Review accumulation is category-dependent** — Veterans concentrate in Makeup (56%), Home Décor (55%), absent from Bath/Bedding
 
 ---
 
@@ -157,7 +190,7 @@ Bronze → Silver → Gold → Notebooks → ML → Streamlit App
 
 - **Bronze (4 tables):** Raw ingestion — 1.4M products, 35M metadata, 248 categories, 526M reviews
 - **Silver (5 tables/views):** Cleaned, typed, enriched — quality flags, joins, deduplication
-- **Gold (16 tables):** Pre-aggregated analytics — one table per analytical question
+- **Gold (17 tables):** Pre-aggregated analytics — one table per analytical question, plus ML cluster assignments
 - **Engine:** DuckDB (local, no cloud dependency, handles 200+ GB)
 - **Stack:** Python · DuckDB · Pandas · Plotly · scikit-learn · XGBoost · VADER · Streamlit
 
@@ -192,6 +225,7 @@ amazon-market-intelligence/
 │   ├── 05_brand_listing_quality.ipynb
 │   ├── 06_store_seller_patterns.ipynb
 │   ├── 07_reviews_sentiment.ipynb
+│   ├── 08_competitive_clustering.py
 │   └── charts/           # Generated visualizations
 ├── models/               # Trained ML models
 ├── app/                  # Streamlit application
@@ -205,7 +239,7 @@ amazon-market-intelligence/
 - [x] Brand & Listing Quality Analysis
 - [x] Store & Seller Patterns
 - [x] Review & Sentiment Analysis
-- [ ] ML: Competitive Clustering (K-Means)
+- [x] ML: Competitive Clustering (K-Means — 5 archetypes, 10 charts)
 - [ ] ML: Success Factor Discovery (XGBoost + SHAP)
 - [ ] ML: Review Anomaly Detection
 - [ ] Streamlit interactive tool
