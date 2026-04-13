@@ -81,7 +81,7 @@ PCA reveals two axes: **PC1 = success** (sales + badge + reviews), **PC2 = effor
 
 Raw word frequency shows "product" and "good" as top complaint words — useless. Dividing negative frequency by positive reveals real signals: **"inedible" (699×), "rancid" (396×), "unsafe" (226×)**.
 
-![Complaint Keywords](notebooks/charts/07_reviews_sentiment/04_distinctive_negative_keywords.png)
+![Complaint Keywords](notebooks/charts/07_reviews_sentiment/05_complaint_keywords_by_category.png)
 
 ---
 
