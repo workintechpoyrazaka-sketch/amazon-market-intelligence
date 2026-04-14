@@ -26,13 +26,26 @@ st.set_page_config(
 )
 
 # DuckDB path — relative from app/ to data/
-DB_PATH = str(Path(__file__).resolve().parent.parent / "data" / "amazon_intelligence.duckdb")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DB_PATH = PROJECT_ROOT / "data" / "amazon_intelligence.duckdb"
+PARQUET_DIR = PROJECT_ROOT / "data" / "parquet"
 
 
 @st.cache_resource
 def get_connection():
-    """Single read-only DuckDB connection, cached across reruns."""
-    conn = duckdb.connect(DB_PATH, read_only=True)
+    """
+    Connect to DuckDB.
+    - If local .duckdb file exists: use it directly (read-only).
+    - Otherwise: load Parquet files into in-memory DuckDB (Streamlit Cloud).
+    """
+    if DB_PATH.exists():
+        return duckdb.connect(str(DB_PATH), read_only=True)
+
+    # Cloud mode — load Parquet into memory
+    conn = duckdb.connect(":memory:")
+    for pq_file in sorted(PARQUET_DIR.glob("*.parquet")):
+        table_name = pq_file.stem
+        conn.execute(f"CREATE TABLE {table_name} AS SELECT * FROM read_parquet('{pq_file}')")
     return conn
 
 
@@ -963,30 +976,45 @@ def health_check():
         feature_cols = ml["feature_cols"]
         shap_expected = ml["shap_expected_value"]
 
-        # Build feature vector with exact column mapping
-        # Raw columns: price, rating, review_count, is_best_seller, discount_pct, is_mcauley_matched
-        # Computed: title_length, has_brand, has_features, has_description, has_store
-        # PERCENT_RANK: price_rank, reviews_rank, title_length_rank
-        feature_df = run_query(f"""
-            SELECT
-                price,
-                rating,
-                review_count,
-                LENGTH(title) as title_length,
-                CAST(is_best_seller AS INTEGER) as is_best_seller,
-                CASE WHEN brand IS NOT NULL AND brand != '' THEN 1 ELSE 0 END as has_brand,
-                CASE WHEN features IS NOT NULL AND features != '' THEN 1 ELSE 0 END as has_features,
-                CASE WHEN description IS NOT NULL AND description != '' THEN 1 ELSE 0 END as has_description,
-                CASE WHEN store IS NOT NULL AND store != '' THEN 1 ELSE 0 END as has_store,
-                COALESCE(discount_pct, 0) as discount_pct,
-                CASE WHEN main_category IS NOT NULL THEN 1 ELSE 0 END as is_mcauley_matched,
-                PERCENT_RANK() OVER (ORDER BY price) as price_rank,
-                PERCENT_RANK() OVER (ORDER BY review_count) as reviews_rank,
-                PERCENT_RANK() OVER (ORDER BY LENGTH(title)) as title_length_rank
-            FROM silver_products
-            WHERE subcategory = '{subcategory.replace("'", "''")}'
-            QUALIFY asin = '{asin}'
-        """)
+        # Build feature vector — SQL differs between local DuckDB and Parquet mode
+        # Parquet has pre-computed columns; local DuckDB needs computation
+        use_parquet = not DB_PATH.exists()
+
+        if use_parquet:
+            feature_sql = f"""
+                SELECT
+                    price, rating, review_count, title_length,
+                    CAST(is_best_seller AS INTEGER) as is_best_seller,
+                    has_brand, has_features, has_description, has_store,
+                    discount_pct, is_mcauley_matched,
+                    PERCENT_RANK() OVER (ORDER BY price) as price_rank,
+                    PERCENT_RANK() OVER (ORDER BY review_count) as reviews_rank,
+                    PERCENT_RANK() OVER (ORDER BY title_length) as title_length_rank
+                FROM silver_products
+                WHERE subcategory = '{subcategory.replace("'", "''")}'
+                QUALIFY asin = '{asin}'
+            """
+        else:
+            feature_sql = f"""
+                SELECT
+                    price, rating, review_count,
+                    LENGTH(title) as title_length,
+                    CAST(is_best_seller AS INTEGER) as is_best_seller,
+                    CASE WHEN brand IS NOT NULL AND brand != '' THEN 1 ELSE 0 END as has_brand,
+                    CASE WHEN features IS NOT NULL AND features != '' THEN 1 ELSE 0 END as has_features,
+                    CASE WHEN description IS NOT NULL AND description != '' THEN 1 ELSE 0 END as has_description,
+                    CASE WHEN store IS NOT NULL AND store != '' THEN 1 ELSE 0 END as has_store,
+                    COALESCE(discount_pct, 0) as discount_pct,
+                    CASE WHEN main_category IS NOT NULL THEN 1 ELSE 0 END as is_mcauley_matched,
+                    PERCENT_RANK() OVER (ORDER BY price) as price_rank,
+                    PERCENT_RANK() OVER (ORDER BY review_count) as reviews_rank,
+                    PERCENT_RANK() OVER (ORDER BY LENGTH(title)) as title_length_rank
+                FROM silver_products
+                WHERE subcategory = '{subcategory.replace("'", "''")}'
+                QUALIFY asin = '{asin}'
+            """
+
+        feature_df = run_query(feature_sql)
 
         if len(feature_df) == 0:
             st.warning("Could not compute features for this product.")

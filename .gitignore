@@ -1,12 +1,10 @@
 # Data files (too large for GitHub)
 collection/
-data/
-models/
+data/*.duckdb
+data/tmp/
 *.csv
-*.parquet
 *.jsonl
 *.jsonl.gz
-*.duckdb
 
 # Python
 __pycache__/
@@ -18,5 +16,4 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
-
 notebooks/charts/**/*.html
