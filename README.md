@@ -4,6 +4,8 @@
 
 I took 37 GB of raw Amazon product data and 526M customer reviews, built a full intelligence pipeline, discovered what actually drives success on the world's biggest marketplace, and turned it into a tool that any seller can use to make better decisions.
 
+### **[→ Try the Live Tool](https://amazonmarketintelligence.streamlit.app)**
+
 ---
 
 ## The Problem
@@ -85,6 +87,24 @@ Raw word frequency shows "product" and "good" as top complaint words — useless
 
 ---
 
+## The Tool — Live
+
+**[amazonmarketintelligence.streamlit.app](https://amazonmarketintelligence.streamlit.app)**
+
+5 modes answering 11 customer questions. Every query hits pre-aggregated Gold tables — the tool never scans 526M raw rows.
+
+| Mode | Questions It Answers | What It Shows |
+|------|---------------------|---------------|
+| 🔍 Category Scout | Where should I sell? Is my category growing? How competitive is it? | Opportunity scoring, revenue vs competition scatter, temporal trends |
+| ⚔️ Competitive Positioning | What's the price sweet spot? Who are my competitors? | Price tier analysis, brand dynamics, discount effectiveness, cluster distribution |
+| 🩺 Health Check | How does my product compare? What am I doing wrong? | Radar benchmarking, competitive archetype, SHAP waterfall diagnosis |
+| 💬 Voice of Customer | What are customers actually saying? | Sentiment breakdown, complaint/praise keywords, sentiment trends |
+| 🛡️ Review Trust Score | Can I trust these reviews? | Verified rate analysis, suspicious product detection, anomaly profiles |
+
+Health Check is the flagship mode: enter any ASIN from 1.4M products, get a radar chart benchmarking against category peers, your competitive archetype, and an ML-powered SHAP waterfall showing exactly which factors are helping or hurting your success score.
+
+---
+
 ## Full Analysis Details
 
 | # | Notebook | Charts | Key Finding |
@@ -98,7 +118,17 @@ Raw word frequency shows "product" and "good" as top complaint words — useless
 | [09](notebooks/09_success_factors.py) | ML: Success Factors | 11 | AUC 0.78; price_rank is #1 predictor; rating cliff at 4.0 |
 | [10](notebooks/10_review_anomaly.py) | ML: Review Anomaly | 10 | 5% flagged; verified rate #1 signal; manipulation reverses market pattern |
 
-**Total: 90 charts, ~100 findings, 8 analysis notebooks.**
+**Total: 90 charts, 100 findings, 8 analysis notebooks, 3 ML models.**
+
+---
+
+## Documentation
+
+| Document | What It Covers |
+|----------|---------------|
+| [Methodology](docs/methodology.md) | Pipeline architecture, DuckDB migration, VIEW vs TABLE decisions, batch processing, ML approach |
+| [Data Dictionary](docs/data_dictionary.md) | All 27 tables/views with column-level descriptions, types, and grain |
+| [Findings](docs/findings.md) | 100 findings organized by theme: pricing, brands, reviews, clusters, ML performance |
 
 ---
 
@@ -112,19 +142,8 @@ Bronze → Silver → Gold → Notebooks → ML → Streamlit App
 - **Silver (5 tables/views):** Cleaned, typed, enriched — quality flags, joins, deduplication
 - **Gold (18 tables):** Pre-aggregated analytics + ML outputs — one table per question
 - **Engine:** DuckDB (local, no cloud dependency, handles 200+ GB)
+- **Deployment:** Gold tables exported to Parquet (~110 MB), loaded into in-memory DuckDB on Streamlit Cloud
 - **Stack:** Python · DuckDB · Pandas · Plotly · scikit-learn · XGBoost · SHAP · Streamlit
-
-## The Tool (In Progress)
-
-**5 modes, 11 customer questions:**
-
-| Mode | Questions It Answers |
-|------|---------------------|
-| 🔍 Category Scout | Where should I sell? Is my category growing? How competitive is it? |
-| 📊 Competitive Positioning | What's the price sweet spot? Who are my competitors? |
-| 🏥 Health Check | How does my product compare? What am I doing wrong? |
-| 💬 Voice of Customer | What are customers actually saying? |
-| 🛡️ Review Trust Score | Can I trust these reviews? |
 
 ## Project Structure
 
@@ -142,7 +161,16 @@ amazon-market-intelligence/
 │   └── charts/           # Generated visualizations
 ├── models/               # Trained ML models (3 artifacts)
 ├── app/                  # Streamlit application
-└── data/                 # DuckDB database (not in repo)
+│   ├── app.py            # Main app — 5 modes, dual-mode data loading
+│   └── test_app.py       # Smoke test suite
+├── data/
+│   ├── parquet/           # Compressed Gold + Silver exports for deployment
+│   └── amazon_intelligence.duckdb  # Local DuckDB (not in repo)
+├── docs/                 # Project documentation
+│   ├── methodology.md
+│   ├── data_dictionary.md
+│   └── findings.md
+└── requirements.txt      # Python dependencies
 ```
 
 ## Progress
@@ -152,7 +180,8 @@ amazon-market-intelligence/
 - [x] ML: Competitive Clustering (K-Means — 5 archetypes)
 - [x] ML: Success Factor Discovery (XGBoost + SHAP — AUC 0.78)
 - [x] ML: Review Anomaly Detection (Isolation Forest — 5% flagged)
-- [ ] Streamlit interactive tool
+- [x] Streamlit interactive tool — [live](https://amazonmarketintelligence.streamlit.app)
+- [x] Documentation (methodology, data dictionary, findings)
 - [ ] Presentation deck
 
 ---
