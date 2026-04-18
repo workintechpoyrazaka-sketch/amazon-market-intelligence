@@ -122,7 +122,7 @@ def category_scout():
     # ── Zoom level toggle ──
     zoom = st.radio(
         "Zoom Level",
-        ["Subcategory (248 — full revenue data)", "Main Category (50 — full ecosystem)"],
+        ["Subcategory (248 — full revenue data)", "Main Category (33 — full ecosystem)"],
         horizontal=True,
     )
 
@@ -325,7 +325,7 @@ def _category_scout_subcategory():
 
 
 def _category_scout_main_category():
-    """Main category level — 50 categories, full ecosystem view."""
+    """Main category level — 33 categories, full ecosystem view."""
 
     df = run_query("SELECT * FROM gold_main_category_landscape ORDER BY total_revenue DESC LIMIT 33")
     
