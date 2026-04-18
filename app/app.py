@@ -357,7 +357,7 @@ def _category_scout_main_category():
     st.subheader("Ecosystem Density: Products per Store")
 
     fig2 = px.scatter(
-        df,
+        df.fillna({"total_revenue": 0}),
         x="store_count",
         y="ecosystem_products",
         size="total_revenue",
