@@ -327,7 +327,11 @@ def _category_scout_subcategory():
 def _category_scout_main_category():
     """Main category level — 50 categories, full ecosystem view."""
 
-    df = run_query("SELECT * FROM gold_main_category_landscape ORDER BY total_revenue DESC")
+    df = run_query("""
+        SELECT * FROM gold_main_category_landscape
+        WHERE main_category IN (SELECT DISTINCT source_category FROM gold_review_sentiment)
+        ORDER BY total_revenue DESC
+    """)
 
     metric_row([
         ("Ecosystem Products", format_number(df["ecosystem_products"].sum()), None),
